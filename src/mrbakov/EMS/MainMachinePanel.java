@@ -49,7 +49,7 @@ public class MainMachinePanel extends JPanel {
 		rotor1.setSelectedIndex(0);
 		rotor1.setEditable(true);
 
-		DefaultComboBoxModel rotor2Model = new DefaultComboBoxModel();
+		DefaultComboBoxModel<Integer> rotor2Model = new DefaultComboBoxModel<Integer>();
 		for (int i = 1; i < 27; i++) {
 			rotor2Model.addElement(i);
 		}
@@ -57,7 +57,7 @@ public class MainMachinePanel extends JPanel {
 		rotor2.setSelectedIndex(0);
 		rotor2.setEditable(true);
 
-		DefaultComboBoxModel rotor3Model = new DefaultComboBoxModel();
+		DefaultComboBoxModel<Integer> rotor3Model = new DefaultComboBoxModel<Integer>();
 		for (int i = 1; i < 27; i++) {
 			rotor3Model.addElement(i);
 		}
