@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -29,6 +31,10 @@ public class MainMachinePanel extends JPanel {
 	private JTextField outputTextField;
 
 	private JButton convertButton;
+
+	private HashMap<Integer, Character> rotor1Map;
+	private HashMap<Integer, Character> rotor2Map;
+	private HashMap<Integer, Character> rotor3Map;
 
 	public MainMachinePanel() {
 		Dimension dim = getPreferredSize();
@@ -84,7 +90,7 @@ public class MainMachinePanel extends JPanel {
 				incrementRotor(rotor1);
 				incrementRotor(rotor2);
 				incrementRotor(rotor3);
-				
+
 				String text = inputTextField.getText();
 				outputTextField.setText(convertText(text));
 			}
@@ -225,28 +231,47 @@ public class MainMachinePanel extends JPanel {
 		}
 		rotor.setSelectedIndex(selectedIndex);
 	}
-	
+
 	String convertWord(String word) {
+
+		populateMap(rotor1Map);
+		populateMap(rotor2Map);
+		populateMap(rotor3Map);
+
+		// TODO: Scramble the characters in a predictable manner and then make it so
+		// they work with the rotors so that each character is scrambled through each
+		// rotor.
+
 		StringBuilder convertedWord = new StringBuilder(word);
-		for(int i = 0; i < word.length(); i++) {
+		for (int i = 0; i < word.length(); i++) {
+			//  TODO: Rename this variable and refactor it
+			int numericalPosition = word.charAt(i) - 'a' + 1;
 			convertedWord.setCharAt(i, 'a');
 		}
 		return String.valueOf(convertedWord);
 	}
-	
+
 	String convertText(String text) {
 		StringBuilder convertedText = new StringBuilder();
-		
-		if(text.contains(" ")) {
+
+		if (text.contains(" ")) {
 			String[] wordArray = text.split(" ");
-			for(String word: wordArray) {
+			for (String word : wordArray) {
 				convertedText.append(convertWord(word));
 				convertedText.append(" ");
 			}
 		} else {
 			convertedText = new StringBuilder(convertWord(text));
 		}
-		
+
 		return String.valueOf(convertedText);
+	}
+
+	void populateMap(HashMap<Integer, Character> map) {
+		int key = 0;
+		for (char character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) {
+			map.put(key, character);
+			key++;
+		}
 	}
 }

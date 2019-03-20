@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" x="24" y="32" width="848" height="600" text="Enigma Machine Simulator" measuredWidth="848" measuredHeight="600" background="#ccc"/>
+  <widgets xsi:type="model:Combo" id="2" x="112" y="144" width="175" text="Rotor 1" measuredWidth="175" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="4" x="360" y="144" width="175" text="Rotor 2" measuredWidth="175" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="5" x="608" y="144" width="175" text="Rotor 3" measuredWidth="175" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="6" x="148" y="232" width="599" text="Input text field" measuredWidth="599" measuredHeight="36" textAlignment="Center">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="8" x="148" y="392" width="599" text="Output text field" measuredWidth="599" measuredHeight="36" textAlignment="Center">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="9" x="330" y="306" width="235" text="Convert" measuredWidth="235" measuredHeight="52">
+    <font size="30px"/>
+  </widgets>
+  <widgets xsi:type="model:Group" id="11" x="94" y="464" width="689" height="137" text="Plug Board" measuredWidth="689" measuredHeight="137">
+    <font size="28px"/>
+  </widgets>
+  <widgets xsi:type="model:RadioButton" id="13" x="116" y="512" text="A" measuredWidth="33" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:RadioButton" id="14" x="176" y="512" text="C" measuredWidth="32" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:RadioButton" id="15" x="148" y="547" text="B" measuredWidth="31" measuredHeight="36">
+    <font size="20px"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
