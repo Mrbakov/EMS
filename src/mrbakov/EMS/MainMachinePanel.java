@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.DefaultComboBoxModel;
@@ -18,9 +19,9 @@ import javax.swing.JTextField;
 
 public class MainMachinePanel extends JPanel {
 
-	private JComboBox<Integer> rotor1;
-	private JComboBox<Integer> rotor2;
-	private JComboBox<Integer> rotor3;
+	private JComboBox<Character> rotor1;
+	private JComboBox<Character> rotor2;
+	private JComboBox<Character> rotor3;
 
 	private JLabel rotorLabel1;
 	private JLabel rotorLabel2;
@@ -32,9 +33,10 @@ public class MainMachinePanel extends JPanel {
 
 	private JButton convertButton;
 
-	private HashMap<Integer, Character> rotor1Map;
-	private HashMap<Integer, Character> rotor2Map;
-	private HashMap<Integer, Character> rotor3Map;
+	private HashMap<Character, Character> rotor1Map;
+	private HashMap<Character, Character> rotor1ReverseMap;
+	private HashMap<Character, Character> rotor2Map;
+	private HashMap<Character, Character> rotor3Map;
 
 	public MainMachinePanel() {
 		Dimension dim = getPreferredSize();
@@ -43,29 +45,29 @@ public class MainMachinePanel extends JPanel {
 		setPreferredSize(dim);
 
 		// Combo boxes:
-		rotor1 = new JComboBox<Integer>();
-		rotor2 = new JComboBox<Integer>();
-		rotor3 = new JComboBox<Integer>();
+		rotor1 = new JComboBox<Character>();
+		rotor2 = new JComboBox<Character>();
+		rotor3 = new JComboBox<Character>();
 
-		DefaultComboBoxModel<Integer> rotor1Model = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 27; i++) {
-			rotor1Model.addElement(i);
+		DefaultComboBoxModel<Character> rotor1Model = new DefaultComboBoxModel<Character>();
+		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+			rotor1Model.addElement(character);
 		}
 		rotor1.setModel(rotor1Model);
 		rotor1.setSelectedIndex(0);
 		rotor1.setEditable(true);
 
-		DefaultComboBoxModel<Integer> rotor2Model = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 27; i++) {
-			rotor2Model.addElement(i);
+		DefaultComboBoxModel<Character> rotor2Model = new DefaultComboBoxModel<Character>();
+		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+			rotor2Model.addElement(character);
 		}
 		rotor2.setModel(rotor2Model);
 		rotor2.setSelectedIndex(0);
 		rotor2.setEditable(true);
 
-		DefaultComboBoxModel<Integer> rotor3Model = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 27; i++) {
-			rotor3Model.addElement(i);
+		DefaultComboBoxModel<Character> rotor3Model = new DefaultComboBoxModel<Character>();
+		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+			rotor3Model.addElement(character);
 		}
 		rotor3.setModel(rotor3Model);
 		rotor3.setSelectedIndex(0);
@@ -87,12 +89,16 @@ public class MainMachinePanel extends JPanel {
 		convertButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				incrementRotor(rotor1);
-				incrementRotor(rotor2);
-				incrementRotor(rotor3);
+//				incrementRotor(rotor1);
+//				if (rotor1.getSelectedIndex() == 25) {
+//					incrementRotor(rotor2);
+//					if (rotor2.getSelectedIndex() == 25) {
+//						incrementRotor(rotor3);
+//					}
+//				}
 
 				String text = inputTextField.getText();
-				outputTextField.setText(convertText(text));
+				outputTextField.setText(convertCharacter(text));
 			}
 		});
 
@@ -232,46 +238,79 @@ public class MainMachinePanel extends JPanel {
 		rotor.setSelectedIndex(selectedIndex);
 	}
 
-	String convertWord(String word) {
+	String convertCharacter(String word) {
+		
+		rotor1Map = new HashMap<Character, Character>();
+		rotor1ReverseMap = new HashMap<Character, Character>();
 
 		populateMap(rotor1Map);
-		populateMap(rotor2Map);
-		populateMap(rotor3Map);
+		reversePopulateMap(rotor1ReverseMap);
+//		populateMap(rotor2Map);
+//		populateMap(rotor3Map);
+		
+		Character messagePart1 = rotor1Map.get(rotor1.getSelectedItem());
+		
+		
+		word = String.valueOf(rotor1ReverseMap.get(messagePart1));
+		
+		return word;
 
 		// TODO: Scramble the characters in a predictable manner and then make it so
 		// they work with the rotors so that each character is scrambled through each
 		// rotor.
+		
+		
 
-		StringBuilder convertedWord = new StringBuilder(word);
-		for (int i = 0; i < word.length(); i++) {
-			//  TODO: Rename this variable and refactor it
-			int numericalPosition = word.charAt(i) - 'a' + 1;
-			convertedWord.setCharAt(i, 'a');
-		}
-		return String.valueOf(convertedWord);
+//		StringBuilder convertedWord = new StringBuilder(word);
+//		for (int i = 0; i < word.length(); i++) {
+//			// TODO: Rename this variable and refactor it
+//			int numericalPosition = word.charAt(i) - 'a' + 1;
+//			convertedWord.setCharAt(i, 'a');
+//		}
+//		return String.valueOf(convertedWord);
+//	}
+//
+//	String convertText(String text) {
+//		StringBuilder convertedText = new StringBuilder();
+//
+//		if (text.contains(" ")) {
+//			String[] wordArray = text.split(" ");
+//			for (String word : wordArray) {
+//				convertedText.append(convertWord(word));
+//				convertedText.append(" ");
+//			}
+//		} else {
+//			convertedText = new StringBuilder(convertWord(text));
+//		}
+//
+//		return String.valueOf(convertedText);
 	}
 
-	String convertText(String text) {
-		StringBuilder convertedText = new StringBuilder();
-
-		if (text.contains(" ")) {
-			String[] wordArray = text.split(" ");
-			for (String word : wordArray) {
-				convertedText.append(convertWord(word));
-				convertedText.append(" ");
-			}
-		} else {
-			convertedText = new StringBuilder(convertWord(text));
+	void populateMap(HashMap<Character,Character> map) {
+		ArrayList<Character> charList = new ArrayList<Character>();
+		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+			charList.add(character);
 		}
-
-		return String.valueOf(convertedText);
+		int keyIterator = 0;
+		for (char character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) 
+			{
+			map.put(charList.get(keyIterator), character);
+			keyIterator++;
+		}
+		System.out.println(Collections.singletonList(map));
 	}
-
-	void populateMap(HashMap<Integer, Character> map) {
-		int key = 0;
-		for (char character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) {
-			map.put(key, character);
-			key++;
+	// Make the method take a string for the characters as a parameter
+	void reversePopulateMap(HashMap<Character,Character> map) {
+		ArrayList<Character> charList = new ArrayList<Character>();
+		for (Character character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) {
+			charList.add(character);
 		}
+		int keyIterator = 0;
+		for (char character : "abcdefghijklmnopqrstuvwxyz".toLowerCase().toCharArray()) 
+			{
+			map.put(charList.get(keyIterator), character);
+			keyIterator++;
+		}
+		System.out.println(Collections.singletonList(map));
 	}
 }
