@@ -6,9 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -33,14 +30,11 @@ public class MainMachinePanel extends JPanel {
 
 	private JButton convertButton;
 
-	private HashMap<Character, Character> rotor1Map;
-	private HashMap<Character, Character> rotor1ReverseMap;
-	private HashMap<Character, Character> rotor2Map;
-	private HashMap<Character, Character> rotor3Map;
+	Encryptor encryptor;
 
 	public MainMachinePanel() {
 		Dimension dim = getPreferredSize();
-		dim.width = 848;
+		dim.width = 500;
 		dim.height = 300;
 		setPreferredSize(dim);
 
@@ -55,7 +49,6 @@ public class MainMachinePanel extends JPanel {
 		}
 		rotor1.setModel(rotor1Model);
 		rotor1.setSelectedIndex(0);
-		rotor1.setEditable(true);
 
 		DefaultComboBoxModel<Character> rotor2Model = new DefaultComboBoxModel<Character>();
 		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
@@ -63,7 +56,6 @@ public class MainMachinePanel extends JPanel {
 		}
 		rotor2.setModel(rotor2Model);
 		rotor2.setSelectedIndex(0);
-		rotor2.setEditable(true);
 
 		DefaultComboBoxModel<Character> rotor3Model = new DefaultComboBoxModel<Character>();
 		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
@@ -71,8 +63,7 @@ public class MainMachinePanel extends JPanel {
 		}
 		rotor3.setModel(rotor3Model);
 		rotor3.setSelectedIndex(0);
-		rotor3.setEditable(true);
-
+		
 		// Labels:
 		rotorLabel1 = new JLabel("Rotor 1");
 		rotorLabel2 = new JLabel("Rotor 2");
@@ -85,20 +76,17 @@ public class MainMachinePanel extends JPanel {
 
 		// Buttons:
 		convertButton = new JButton("Convert");
+		
+		encryptor = new Encryptor();
 
 		convertButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				incrementRotor(rotor1);
-//				if (rotor1.getSelectedIndex() == 25) {
-//					incrementRotor(rotor2);
-//					if (rotor2.getSelectedIndex() == 25) {
-//						incrementRotor(rotor3);
-//					}
-//				}
+				
+				encryptor.incrementRotors(rotor1, rotor2, rotor3);
 
-				String text = inputTextField.getText();
-				outputTextField.setText(convertCharacter(text));
+				//String text = inputTextField.getText();
+				//outputTextField.setText(encryptor.convertCharacter(text));
 			}
 		});
 
@@ -147,7 +135,7 @@ public class MainMachinePanel extends JPanel {
 
 		gc.fill = GridBagConstraints.NONE;
 		gc.insets = new Insets(0, 0, 0, 20);
-		gc.anchor = GridBagConstraints.FIRST_LINE_END;
+		gc.anchor = GridBagConstraints.CENTER;
 		add(rotor1, gc);
 
 ////////////// Second column //////////////
@@ -161,7 +149,7 @@ public class MainMachinePanel extends JPanel {
 
 		gc.gridx = 2;
 		gc.insets = new Insets(0, 0, 0, 0);
-		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.anchor = GridBagConstraints.CENTER;
 		add(rotor3, gc);
 
 ////////////////////////////////////////////////// Third row ////////////////////////////////////////////////////////////////////////
@@ -228,89 +216,7 @@ public class MainMachinePanel extends JPanel {
 		gc.anchor = GridBagConstraints.CENTER;
 		add(outputTextField, gc);
 	}
+	
+	
 
-	void incrementRotor(JComboBox<Integer> rotor) {
-		int selectedIndex = 0;
-		if (rotor.getSelectedIndex() < 25) {
-			selectedIndex = rotor.getSelectedIndex();
-			selectedIndex++;
-		}
-		rotor.setSelectedIndex(selectedIndex);
-	}
-
-	String convertCharacter(String word) {
-		
-		rotor1Map = new HashMap<Character, Character>();
-		rotor1ReverseMap = new HashMap<Character, Character>();
-
-		populateMap(rotor1Map);
-		reversePopulateMap(rotor1ReverseMap);
-//		populateMap(rotor2Map);
-//		populateMap(rotor3Map);
-		
-		Character messagePart1 = rotor1Map.get(rotor1.getSelectedItem());
-		
-		
-		word = String.valueOf(rotor1ReverseMap.get(messagePart1));
-		
-		return word;
-
-		// TODO: Scramble the characters in a predictable manner and then make it so
-		// they work with the rotors so that each character is scrambled through each
-		// rotor.
-		
-		
-
-//		StringBuilder convertedWord = new StringBuilder(word);
-//		for (int i = 0; i < word.length(); i++) {
-//			// TODO: Rename this variable and refactor it
-//			int numericalPosition = word.charAt(i) - 'a' + 1;
-//			convertedWord.setCharAt(i, 'a');
-//		}
-//		return String.valueOf(convertedWord);
-//	}
-//
-//	String convertText(String text) {
-//		StringBuilder convertedText = new StringBuilder();
-//
-//		if (text.contains(" ")) {
-//			String[] wordArray = text.split(" ");
-//			for (String word : wordArray) {
-//				convertedText.append(convertWord(word));
-//				convertedText.append(" ");
-//			}
-//		} else {
-//			convertedText = new StringBuilder(convertWord(text));
-//		}
-//
-//		return String.valueOf(convertedText);
-	}
-
-	void populateMap(HashMap<Character,Character> map) {
-		ArrayList<Character> charList = new ArrayList<Character>();
-		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
-			charList.add(character);
-		}
-		int keyIterator = 0;
-		for (char character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) 
-			{
-			map.put(charList.get(keyIterator), character);
-			keyIterator++;
-		}
-		System.out.println(Collections.singletonList(map));
-	}
-	// Make the method take a string for the characters as a parameter
-	void reversePopulateMap(HashMap<Character,Character> map) {
-		ArrayList<Character> charList = new ArrayList<Character>();
-		for (Character character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) {
-			charList.add(character);
-		}
-		int keyIterator = 0;
-		for (char character : "abcdefghijklmnopqrstuvwxyz".toLowerCase().toCharArray()) 
-			{
-			map.put(charList.get(keyIterator), character);
-			keyIterator++;
-		}
-		System.out.println(Collections.singletonList(map));
-	}
 }

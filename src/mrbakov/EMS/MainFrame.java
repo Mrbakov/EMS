@@ -3,6 +3,7 @@ package mrbakov.EMS;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
 
@@ -32,7 +33,8 @@ public class MainFrame extends JFrame{
 		gc.gridx = 0;
 
 		gc.fill = GridBagConstraints.NONE;
-		gc.anchor = GridBagConstraints.CENTER;
+		gc.insets = new Insets(40, 0, 0, 0);
+		gc.anchor = GridBagConstraints.NORTH;
 		add(mainMachinePanel, gc);
 
 	}
