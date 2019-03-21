@@ -82,11 +82,9 @@ public class MainMachinePanel extends JPanel {
 		convertButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+				String text = inputTextField.getText();
+				outputTextField.setText(encryptor.scrambleText(text));
 				encryptor.incrementRotors(rotor1, rotor2, rotor3);
-
-				//String text = inputTextField.getText();
-				//outputTextField.setText(encryptor.convertCharacter(text));
 			}
 		});
 

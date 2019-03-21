@@ -32,51 +32,47 @@ public class Encryptor {
 		incrementRotor(rotor1);
 	}
 
-	String convertCharacter(String word) {
-
-		rotor1Map = new HashMap<Character, Character>();
-		rotor1ReverseMap = new HashMap<Character, Character>();
-
-		populateMap(rotor1Map);
-		reversePopulateMap(rotor1ReverseMap);
-//		populateMap(rotor2Map);
-//		populateMap(rotor3Map);
-
-//		Character messagePart1 = rotor1Map.get(rotor1.getSelectedItem());
-
-		// word = String.valueOf(rotor1ReverseMap.get(messagePart1));
-
-		return word;
+	Character scrambleCharacter(Character character) {
 
 		// TODO: Scramble the characters in a predictable manner and then make it so
 		// they work with the rotors so that each character is scrambled through each
 		// rotor.
+		
+//		rotor1Map = new HashMap<Character, Character>();
+//		rotor1ReverseMap = new HashMap<Character, Character>();
+//		populateMap(rotor1Map);
+//		reversePopulateMap(rotor1ReverseMap);
+//		populateMap(rotor2Map);
+//		populateMap(rotor3Map);
+		
+		character = 'A';
 
-//		StringBuilder convertedWord = new StringBuilder(word);
-//		for (int i = 0; i < word.length(); i++) {
-//			// TODO: Rename this variable and refactor it
-//			int numericalPosition = word.charAt(i) - 'a' + 1;
-//			convertedWord.setCharAt(i, 'a');
-//		}
-//		return String.valueOf(convertedWord);
-//	}
-//
-//	String convertText(String text) {
-//		StringBuilder convertedText = new StringBuilder();
-//
-//		if (text.contains(" ")) {
-//			String[] wordArray = text.split(" ");
-//			for (String word : wordArray) {
-//				convertedText.append(convertWord(word));
-//				convertedText.append(" ");
-//			}
-//		} else {
-//			convertedText = new StringBuilder(convertWord(text));
-//		}
-//
-//		return String.valueOf(convertedText);
+		return character;
+	}
+		
+	String scrambleWord(String word) {
+		StringBuilder scrambledWord = new StringBuilder();
+		for (Character character : word.toCharArray()) {
+			scrambledWord.append(scrambleCharacter(character));
+		}
+		// TODO: incrementRotors(...) should execute here
+		return String.valueOf(scrambledWord);
 	}
 
+	String scrambleText(String text) {
+		StringBuilder convertedText = new StringBuilder();
+		if (text.contains(" ")) {
+			for (String word : text.split(" ")) {
+				convertedText.append(scrambleWord(word));
+				convertedText.append(" ");
+			}
+		} else {
+			convertedText = new StringBuilder(scrambleWord(text));
+		}
+		return String.valueOf(convertedText);
+	}
+
+	// TODO: Make the method take a string for the characters as a parameter
 	void populateMap(HashMap<Character, Character> map) {
 		ArrayList<Character> charList = new ArrayList<Character>();
 		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
@@ -90,7 +86,7 @@ public class Encryptor {
 		System.out.println(Collections.singletonList(map));
 	}
 
-	// Make the method take a string for the characters as a parameter
+	// TODO: Make the method take a string for the characters as a parameter
 	void reversePopulateMap(HashMap<Character, Character> map) {
 		ArrayList<Character> charList = new ArrayList<Character>();
 		for (Character character : "OTFXSNZEDCABHGUYJIWPLKRMQV".toLowerCase().toCharArray()) {
