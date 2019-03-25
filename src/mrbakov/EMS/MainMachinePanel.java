@@ -105,7 +105,7 @@ public class MainMachinePanel extends JPanel {
 		gc.fill = GridBagConstraints.NONE;
 		gc.insets = new Insets(0, 0, 0, 20);
 		gc.anchor = GridBagConstraints.CENTER;
-		add(rotorLabel1, gc);
+		add(rotorLabel3, gc);
 
 ////////////// Second column //////////////
 
@@ -119,7 +119,7 @@ public class MainMachinePanel extends JPanel {
 		gc.gridx = 2;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.CENTER;
-		add(rotorLabel3, gc);
+		add(rotorLabel1, gc);
 
 ////////////////////////////////////////////////// Second row ////////////////////////////////////////////////////////////////////////
 
@@ -134,7 +134,7 @@ public class MainMachinePanel extends JPanel {
 		gc.fill = GridBagConstraints.NONE;
 		gc.insets = new Insets(0, 0, 0, 20);
 		gc.anchor = GridBagConstraints.CENTER;
-		add(rotor1, gc);
+		add(rotor3, gc);
 
 ////////////// Second column //////////////
 
@@ -148,7 +148,7 @@ public class MainMachinePanel extends JPanel {
 		gc.gridx = 2;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.CENTER;
-		add(rotor3, gc);
+		add(rotor1, gc);
 
 ////////////////////////////////////////////////// Third row ////////////////////////////////////////////////////////////////////////
 
