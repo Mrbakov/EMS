@@ -71,126 +71,32 @@ public class Encryptor {
 //	    return number;
 //	}
 
-	// All available rotors:
-	private HashMap<Integer, Character> rotor1;
-	private HashMap<Integer, Character> rotor2;
-	private HashMap<Integer, Character> rotor3;
-	private HashMap<Integer, Character> rotor4;
-	private HashMap<Integer, Character> rotor5;
-	private HashMap<Integer, Character> rotor6;
-	private HashMap<Integer, Character> rotor7;
-	private HashMap<Integer, Character> rotor8;
-
-	// Reflectors:
-	private HashMap<Integer, Character> reflectorB;
-	private HashMap<Integer, Character> reflectorC;
-
-	// Rotors that will be used
-	private HashMap<Integer, Character> rightRotorMap;
-	private HashMap<Integer, Character> middleRotor;
-	private HashMap<Integer, Character> leftRotor;
-
-	// Knockpoints of the rotors
-	// TODO: FINISH MAKING THE KNOCKPOINTS
-	private ArrayList<Integer> rotor1Knockpoints; // Q - one knockpoint (R I)
-	private ArrayList<Integer> rotor2Knockpoints; // E - one knockpoint (R II)
-	private ArrayList<Integer> rotor3Knockpoints; // V - one knockpoint (R III)
-	private ArrayList<Integer> rotor4Knockpoints; // J - one knockpoint (R IV)
-	private ArrayList<Integer> rotor5Knockpoints; // Z - one knockpoint (R V)
-	private ArrayList<Integer> rotor6Knockpoints; // Z/M - two knockpoints (R VI)
-	private ArrayList<Integer> rotor7Knockpoints; // Z/M - two knockpoints (R VII)
-	private ArrayList<Integer> rotor8Knockpoints; // Z/M - two knockpoints (R VIII)
-
-	void incrementRotor(JComboBox<Character> rotor) {
+	void incrementRotor(JComboBox<Character> rotorGrundstellung) {
 		int selectedIndex = 0;
-		if (rotor.getSelectedIndex() < 25) {
-			selectedIndex = rotor.getSelectedIndex();
+		if (rotorGrundstellung.getSelectedIndex() < 25) {
+			selectedIndex = rotorGrundstellung.getSelectedIndex();
 			selectedIndex++;
 		}
-		rotor.setSelectedIndex(selectedIndex);
+		rotorGrundstellung.setSelectedIndex(selectedIndex);
 	}
 
 	public Encryptor() {
-		rotor1 = new HashMap<Integer, Character>();
-		populateMap(rotor1, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 
-		rotor2 = new HashMap<Integer, Character>();
-		populateMap(rotor2, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
-
-		rotor3 = new HashMap<Integer, Character>();
-		populateMap(rotor3, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
-
-		rotor4 = new HashMap<Integer, Character>();
-		populateMap(rotor4, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
-
-		rotor5 = new HashMap<Integer, Character>();
-		populateMap(rotor5, "VZBRGITYUPSDNHLXAWMJQOFECK");
-
-		rotor6 = new HashMap<Integer, Character>();
-		populateMap(rotor6, "JPGVOUMFYQBENHZRDKASXLICTW");
-
-		rotor7 = new HashMap<Integer, Character>();
-		populateMap(rotor7, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
-
-		rotor8 = new HashMap<Integer, Character>();
-		populateMap(rotor8, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
-
-		reflectorB = new HashMap<Integer, Character>();
-		populateMap(reflectorB, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
-
-		reflectorC = new HashMap<Integer, Character>();
-		populateMap(reflectorC, "FVPJIAOYEDRZXWGCTKUQSBNMHL");
-
-		rotor1Knockpoints = new ArrayList<Integer>();
-		rotor1Knockpoints.add(17);
-
-		rotor2Knockpoints = new ArrayList<Integer>();
-		rotor2Knockpoints.add(5);
-
-		rotor3Knockpoints = new ArrayList<Integer>();
-		rotor3Knockpoints.add(22);
-
-		rotor4Knockpoints = new ArrayList<Integer>();
-		rotor4Knockpoints.add(10);
-
-		rotor5Knockpoints = new ArrayList<Integer>();
-		rotor5Knockpoints.add(26);
-
-		rotor6Knockpoints = new ArrayList<Integer>();
-		rotor6Knockpoints.add(26);
-		rotor6Knockpoints.add(13);
-
-		rotor7Knockpoints = new ArrayList<Integer>();
-		rotor7Knockpoints.add(26);
-		rotor7Knockpoints.add(13);
-
-		rotor8Knockpoints = new ArrayList<Integer>();
-		rotor8Knockpoints.add(26);
-		rotor8Knockpoints.add(13);
 	}
-
-	public void incrementRotors(JComboBox<Character> rotor1, JComboBox<Character> rotor2, JComboBox<Character> rotor3) {
-		if (rotor1.getSelectedIndex() == 25) {
-			if (rotor2.getSelectedIndex() == 25) {
-				incrementRotor(rotor3);
+	public void incrementRotors(JComboBox<Character> rightRotorGrundstellung,
+			JComboBox<Character> middleRotorGrundstellung, JComboBox<Character> leftRotorGrundstellung,
+			ArrayList<Integer> rightRotorKnockpoint, ArrayList<Integer> middleRotorKnockpoint,
+			ArrayList<Integer> leftRotorKnockpoint) {
+		if (rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(0) - 1 || rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(1) - 1) {
+			if (middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(0) - 1|| middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(1) - 1) {
+				incrementRotor(leftRotorGrundstellung);
 			}
-			incrementRotor(rotor2);
+			incrementRotor(middleRotorGrundstellung);
 		}
-		incrementRotor(rotor1);
+		incrementRotor(rightRotorGrundstellung);
 	}
 
 	Character scrambleCharacter(Character character) {
-
-		// TODO: Scramble the characters in a predictable manner and then make it so
-		// they work with the rotors so that each character is scrambled through each
-		// rotor.
-
-//		rotor1Map = new HashMap<Character, Character>();
-//		rotor1ReverseMap = new HashMap<Character, Character>();
-//		populateMap(rotor1Map);
-//		reversePopulateMap(rotor1ReverseMap);
-//		populateMap(rotor2Map);
-//		populateMap(rotor3Map);
 
 		character = 'A';
 
