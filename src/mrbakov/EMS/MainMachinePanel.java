@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -26,6 +26,7 @@ public class MainMachinePanel extends JPanel {
 	private JComboBox<Character> middleRotorRingstellung;
 	private JComboBox<Character> leftRotorRingstellung;
 
+	// Rotor maps which will be used:
 	private JComboBox<Integer> rightRotorUsed;
 	private JComboBox<Integer> middleRotorUsed;
 	private JComboBox<Integer> leftRotorUsed;
@@ -37,31 +38,33 @@ public class MainMachinePanel extends JPanel {
 
 	private JButton convertButton;
 
-	Encryptor encryptor;
+	private Encryptor encryptor;
 
-	private HashMap<Integer, Character> rotor1;
-	private HashMap<Integer, Character> rotor2;
-	private HashMap<Integer, Character> rotor3;
-	private HashMap<Integer, Character> rotor4;
-	private HashMap<Integer, Character> rotor5;
-	private HashMap<Integer, Character> rotor6;
-	private HashMap<Integer, Character> rotor7;
-	private HashMap<Integer, Character> rotor8;
+	// Rotors which will be used
+	private Rotor leftRotor;
+	private Rotor middleRotor;
+	private Rotor rightRotor;
+
+	// Rotor maps
+	private List<HashMap<Character, Character>> rotorMapsList = new ArrayList<HashMap<Character, Character>>();
+	private HashMap<Character, Character> rotor1Map;
+	private HashMap<Character, Character> rotor2Map;
+	private HashMap<Character, Character> rotor3Map;
+	private HashMap<Character, Character> rotor4Map;
+	private HashMap<Character, Character> rotor5Map;
+	private HashMap<Character, Character> rotor6Map;
+	private HashMap<Character, Character> rotor7Map;
+	private HashMap<Character, Character> rotor8Map;
 
 	// Reflectors:
-	private HashMap<Integer, Character> reflectorB;
-	private HashMap<Integer, Character> reflectorC;
+	private List<HashMap<Character, Character>> reflectorsList = new ArrayList<HashMap<Character, Character>>();
+	private HashMap<Character, Character> reflectorB;
+	private HashMap<Character, Character> reflectorC;
 
-	// Rotors that will be used
-	private HashMap<Integer, Character> rightRotorMap;
-	private HashMap<Integer, Character> middleRotor;
-	private HashMap<Integer, Character> leftRotor;
-
-	private ArrayList<Integer> rightRotorKnockpoints;
-	private ArrayList<Integer> middleRotorKnockpoints;
-	private ArrayList<Integer> leftRotorKnockpoints;
+	private JComboBox<Character> reflectorUsed;
 
 	// Knockpoints of the rotors
+	private List<ArrayList<Integer>> rotorKnockpointsList = new ArrayList<ArrayList<Integer>>();
 	private ArrayList<Integer> rotor1Knockpoints; // Q - one knockpoint (R I)
 	private ArrayList<Integer> rotor2Knockpoints; // E - one knockpoint (R II)
 	private ArrayList<Integer> rotor3Knockpoints; // V - one knockpoint (R III)
@@ -74,7 +77,7 @@ public class MainMachinePanel extends JPanel {
 	public MainMachinePanel() {
 		Dimension dim = getPreferredSize();
 		dim.width = 500;
-		dim.height = 300;
+		dim.height = 350;
 		setPreferredSize(dim);
 
 		// Combo boxes:
@@ -82,64 +85,44 @@ public class MainMachinePanel extends JPanel {
 		middleRotorGrundstellung = new JComboBox<Character>();
 		leftRotorGrundstellung = new JComboBox<Character>();
 
-		DefaultComboBoxModel<Character> rightRotorModel = new DefaultComboBoxModel<Character>();
-		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
-			rightRotorModel.addElement(character);
-		}
-		rightRotorGrundstellung.setModel(rightRotorModel);
+		populateSettingComboBoxes(rightRotorGrundstellung);
 		rightRotorGrundstellung.setSelectedIndex(0);
 
-		DefaultComboBoxModel<Character> middleRotorModel = new DefaultComboBoxModel<Character>();
-		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
-			middleRotorModel.addElement(character);
-		}
-		middleRotorGrundstellung.setModel(middleRotorModel);
+		populateSettingComboBoxes(middleRotorGrundstellung);
 		middleRotorGrundstellung.setSelectedIndex(0);
 
-		DefaultComboBoxModel<Character> leftRotorModel = new DefaultComboBoxModel<Character>();
-		for (Character character : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
-			leftRotorModel.addElement(character);
-		}
-		leftRotorGrundstellung.setModel(leftRotorModel);
+		populateSettingComboBoxes(leftRotorGrundstellung);
 		leftRotorGrundstellung.setSelectedIndex(0);
-////////////////////////////////////////////////////////////////////////////////		
+/////////////////////////////		
 		rightRotorRingstellung = new JComboBox<Character>();
 		middleRotorRingstellung = new JComboBox<Character>();
 		leftRotorRingstellung = new JComboBox<Character>();
 
-		rightRotorRingstellung.setModel(rightRotorModel);
+		populateSettingComboBoxes(rightRotorRingstellung);
 		rightRotorRingstellung.setSelectedIndex(0);
 
-		middleRotorRingstellung.setModel(middleRotorModel);
+		populateSettingComboBoxes(middleRotorRingstellung);
 		middleRotorRingstellung.setSelectedIndex(0);
 
-		leftRotorRingstellung.setModel(leftRotorModel);
+		populateSettingComboBoxes(leftRotorRingstellung);
 		leftRotorRingstellung.setSelectedIndex(0);
-////////////////////////////////////////////////////////////////////////////////		
+/////////////////////////////	
 		rightRotorUsed = new JComboBox<Integer>();
 		middleRotorUsed = new JComboBox<Integer>();
 		leftRotorUsed = new JComboBox<Integer>();
 
-		DefaultComboBoxModel<Integer> rightRotorUsedModel = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 9; i++) {
-			rightRotorUsedModel.addElement(i);
-		}
-		rightRotorUsed.setModel(rightRotorUsedModel);
+		populateRotorUsedComboBoxes(rightRotorUsed);
 		rightRotorUsed.setSelectedIndex(0);
 
-		DefaultComboBoxModel<Integer> middleRotorUsedModel = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 9; i++) {
-			middleRotorUsedModel.addElement(i);
-		}
-		middleRotorUsed.setModel(middleRotorUsedModel);
+		populateRotorUsedComboBoxes(middleRotorUsed);
 		middleRotorUsed.setSelectedIndex(0);
 
-		DefaultComboBoxModel<Integer> leftRotorUsedModel = new DefaultComboBoxModel<Integer>();
-		for (int i = 1; i < 9; i++) {
-			leftRotorUsedModel.addElement(i);
-		}
-		leftRotorUsed.setModel(leftRotorUsedModel);
+		populateRotorUsedComboBoxes(leftRotorUsed);
 		leftRotorUsed.setSelectedIndex(0);
+/////////////////////////////
+		reflectorUsed = new JComboBox<Character>();
+		reflectorUsed.addItem('B');
+		reflectorUsed.addItem('C');
 
 		// Labels:
 		inputTextFieldLabel = new JLabel("Input text:");
@@ -153,89 +136,121 @@ public class MainMachinePanel extends JPanel {
 
 		encryptor = new Encryptor();
 
-		rotor1 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor1, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+		rotor1Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor1Map, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+		rotorMapsList.add(rotor1Map);
 
-		rotor2 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor2, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
+		rotor2Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor2Map, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
+		rotorMapsList.add(rotor2Map);
 
-		rotor3 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor3, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
+		rotor3Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor3Map, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
+		rotorMapsList.add(rotor3Map);
 
-		rotor4 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor4, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
+		rotor4Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor4Map, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
+		rotorMapsList.add(rotor4Map);
 
-		rotor5 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor5, "VZBRGITYUPSDNHLXAWMJQOFECK");
+		rotor5Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor5Map, "VZBRGITYUPSDNHLXAWMJQOFECK");
+		rotorMapsList.add(rotor5Map);
 
-		rotor6 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor6, "JPGVOUMFYQBENHZRDKASXLICTW");
+		rotor6Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor6Map, "JPGVOUMFYQBENHZRDKASXLICTW");
+		rotorMapsList.add(rotor6Map);
 
-		rotor7 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor7, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
+		rotor7Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor7Map, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
+		rotorMapsList.add(rotor7Map);
 
-		rotor8 = new HashMap<Integer, Character>();
-		encryptor.populateMap(rotor8, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
+		rotor8Map = new HashMap<Character, Character>();
+		encryptor.populateMap(rotor8Map, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
+		rotorMapsList.add(rotor8Map);
 
-		reflectorB = new HashMap<Integer, Character>();
+		reflectorB = new HashMap<Character, Character>();
 		encryptor.populateMap(reflectorB, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+		reflectorsList.add(reflectorB);
 
-		reflectorC = new HashMap<Integer, Character>();
+		reflectorC = new HashMap<Character, Character>();
 		encryptor.populateMap(reflectorC, "FVPJIAOYEDRZXWGCTKUQSBNMHL");
+		reflectorsList.add(reflectorC);
 
 		rotor1Knockpoints = new ArrayList<Integer>();
 		rotor1Knockpoints.add(17);
 		rotor1Knockpoints.add(17);
+		rotorKnockpointsList.add(rotor1Knockpoints);
 
 		rotor2Knockpoints = new ArrayList<Integer>();
 		rotor2Knockpoints.add(5);
 		rotor2Knockpoints.add(5);
+		rotorKnockpointsList.add(rotor2Knockpoints);
 
 		rotor3Knockpoints = new ArrayList<Integer>();
 		rotor3Knockpoints.add(22);
 		rotor3Knockpoints.add(22);
+		rotorKnockpointsList.add(rotor3Knockpoints);
 
 		rotor4Knockpoints = new ArrayList<Integer>();
 		rotor4Knockpoints.add(10);
 		rotor4Knockpoints.add(10);
+		rotorKnockpointsList.add(rotor4Knockpoints);
 
 		rotor5Knockpoints = new ArrayList<Integer>();
 		rotor5Knockpoints.add(26);
 		rotor5Knockpoints.add(26);
+		rotorKnockpointsList.add(rotor5Knockpoints);
 
 		rotor6Knockpoints = new ArrayList<Integer>();
 		rotor6Knockpoints.add(26);
 		rotor6Knockpoints.add(13);
+		rotorKnockpointsList.add(rotor6Knockpoints);
 
 		rotor7Knockpoints = new ArrayList<Integer>();
 		rotor7Knockpoints.add(26);
 		rotor7Knockpoints.add(13);
+		rotorKnockpointsList.add(rotor7Knockpoints);
 
 		rotor8Knockpoints = new ArrayList<Integer>();
 		rotor8Knockpoints.add(26);
 		rotor8Knockpoints.add(13);
+		rotorKnockpointsList.add(rotor8Knockpoints);
 
 		convertButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rightRotorKnockpoints = new ArrayList<Integer>();
-				middleRotorKnockpoints = new ArrayList<Integer>();
-				leftRotorKnockpoints = new ArrayList<Integer>();
 
-				rightRotorKnockpoints.addAll(rotor1Knockpoints);
-				middleRotorKnockpoints.addAll(rotor1Knockpoints);
-				leftRotorKnockpoints.addAll(rotor1Knockpoints);
+				rightRotor = new Rotor(rotorMapsList.get(rightRotorUsed.getSelectedIndex()), rightRotorGrundstellung,
+						rightRotorRingstellung, rotorKnockpointsList.get(rightRotorUsed.getSelectedIndex()));
+				middleRotor = new Rotor(rotorMapsList.get(middleRotorUsed.getSelectedIndex()), middleRotorGrundstellung,
+						middleRotorRingstellung, rotorKnockpointsList.get(middleRotorUsed.getSelectedIndex()));
+				leftRotor = new Rotor(rotorMapsList.get(leftRotorUsed.getSelectedIndex()), leftRotorGrundstellung,
+						leftRotorRingstellung, rotorKnockpointsList.get(leftRotorUsed.getSelectedIndex()));
+
+				encryptor.incrementRotors(rightRotor.getGrundstellung(), middleRotor.getGrundstellung(),
+						leftRotor.getGrundstellung(), rightRotor.getKnockpoints(), middleRotor.getKnockpoints(),
+						leftRotor.getKnockpoints());
 
 				String text = inputTextField.getText();
 				outputTextField.setText(encryptor.scrambleText(text));
-				encryptor.incrementRotors(rightRotorGrundstellung, middleRotorGrundstellung, leftRotorGrundstellung,
-						rightRotorKnockpoints, middleRotorKnockpoints, leftRotorKnockpoints);
 			}
 		});
 
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
+
+		Insets comboBoxInsets = new Insets(20, 0, 0, 0);
+
+//////////////////////////////////////////////////Row ////////////////////////////////////////////////////////////////////////
+
+//////////////Second column //////////////
+
+		gc.gridy = 0;
+		gc.gridx = 1;
+		gc.insets = comboBoxInsets;
+		gc.anchor = GridBagConstraints.CENTER;
+		add(reflectorUsed, gc);
 
 //////////////////////////////////////////////////Row ////////////////////////////////////////////////////////////////////////
 
@@ -244,25 +259,25 @@ public class MainMachinePanel extends JPanel {
 		gc.weightx = 1;
 		gc.weighty = 1;
 
-		gc.gridy = 0;
+		gc.gridy++;
 		gc.gridx = 0;
 
 		gc.fill = GridBagConstraints.NONE;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(leftRotorUsed, gc);
 
 //////////////Second column //////////////
 
 		gc.gridx = 1;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(middleRotorUsed, gc);
 
 ///////////// Third column ///////////////
 
 		gc.gridx = 2;
-		gc.insets = new Insets(0, 0, 0, 0);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(rightRotorUsed, gc);
 
@@ -277,21 +292,21 @@ public class MainMachinePanel extends JPanel {
 		gc.gridx = 0;
 
 		gc.fill = GridBagConstraints.NONE;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(leftRotorRingstellung, gc);
 
 //////////////Second column //////////////
 
 		gc.gridx = 1;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(middleRotorRingstellung, gc);
 
 ///////////// Third column ///////////////
 
 		gc.gridx = 2;
-		gc.insets = new Insets(0, 0, 0, 0);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(rightRotorRingstellung, gc);
 ////////////////////////////////////////////////// Row ////////////////////////////////////////////////////////////////////////
@@ -305,21 +320,21 @@ public class MainMachinePanel extends JPanel {
 		gc.gridx = 0;
 
 		gc.fill = GridBagConstraints.NONE;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(leftRotorGrundstellung, gc);
 
 ////////////// Second column //////////////
 
 		gc.gridx = 1;
-		gc.insets = new Insets(0, 0, 0, 20);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(middleRotorGrundstellung, gc);
 
 ///////////// Third column ///////////////
 
 		gc.gridx = 2;
-		gc.insets = new Insets(0, 0, 0, 0);
+		gc.insets = comboBoxInsets;
 		gc.anchor = GridBagConstraints.CENTER;
 		add(rightRotorGrundstellung, gc);
 
@@ -386,6 +401,18 @@ public class MainMachinePanel extends JPanel {
 		gc.insets = new Insets(10, 0, 0, 0);
 		gc.anchor = GridBagConstraints.CENTER;
 		add(outputTextField, gc);
+	}
+
+	void populateSettingComboBoxes(JComboBox<Character> comboBox) {
+		for (Character character : "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray()) {
+			comboBox.addItem(character);
+		}
+	}
+
+	void populateRotorUsedComboBoxes(JComboBox<Integer> comboBox) {
+		for (int i = 1; i < 9; i++) {
+			comboBox.addItem(i);
+		}
 	}
 
 }

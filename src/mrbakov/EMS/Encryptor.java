@@ -125,10 +125,11 @@ public class Encryptor {
 		return String.valueOf(convertedText);
 	}
 
-	void populateMap(HashMap<Integer, Character> map, String alphabet) {
-		int iterator = 1;
-		for (char character : alphabet.toUpperCase().toCharArray()) {
-			map.put(iterator, character);
+	void populateMap(HashMap<Character, Character> map,String scrambledAlphabet) {
+		int iterator = 0;
+		String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
+		for (char character : scrambledAlphabet.toUpperCase().toCharArray()) {
+			map.put(alphabet.charAt(iterator), character);
 			iterator++;
 		}
 		System.out.println(Collections.singletonList(map));
