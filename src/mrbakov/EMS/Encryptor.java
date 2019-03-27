@@ -71,6 +71,14 @@ public class Encryptor {
 //	    return number;
 //	}
 
+	Character mapLetter(Character letter, Rotor rotor) {
+		// TODO: To start the method map the "letter" and the ringstellung character to
+		// numbers of the alphabet and subtract them. Then map the resulting number back
+		// into a letter.
+
+		return letter;
+	}
+
 	void incrementRotor(JComboBox<Character> rotorGrundstellung) {
 		int selectedIndex = 0;
 		if (rotorGrundstellung.getSelectedIndex() < 25) {
@@ -83,12 +91,15 @@ public class Encryptor {
 	public Encryptor() {
 
 	}
+
 	public void incrementRotors(JComboBox<Character> rightRotorGrundstellung,
 			JComboBox<Character> middleRotorGrundstellung, JComboBox<Character> leftRotorGrundstellung,
 			ArrayList<Integer> rightRotorKnockpoint, ArrayList<Integer> middleRotorKnockpoint,
 			ArrayList<Integer> leftRotorKnockpoint) {
-		if (rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(0) - 1 || rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(1) - 1) {
-			if (middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(0) - 1|| middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(1) - 1) {
+		if (rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(0) - 1
+				|| rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(1) - 1) {
+			if (middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(0) - 1
+					|| middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(1) - 1) {
 				incrementRotor(leftRotorGrundstellung);
 			}
 			incrementRotor(middleRotorGrundstellung);
@@ -125,7 +136,7 @@ public class Encryptor {
 		return String.valueOf(convertedText);
 	}
 
-	void populateMap(HashMap<Character, Character> map,String scrambledAlphabet) {
+	void populateMap(HashMap<Character, Character> map, String scrambledAlphabet) {
 		int iterator = 0;
 		String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
 		for (char character : scrambledAlphabet.toUpperCase().toCharArray()) {

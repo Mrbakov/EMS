@@ -18,10 +18,12 @@ import javax.swing.JTextField;
 
 public class MainMachinePanel extends JPanel {
 
+	// Rotor setting:
 	private JComboBox<Character> rightRotorGrundstellung;
 	private JComboBox<Character> middleRotorGrundstellung;
 	private JComboBox<Character> leftRotorGrundstellung;
 
+	// Rotor static setting:
 	private JComboBox<Character> rightRotorRingstellung;
 	private JComboBox<Character> middleRotorRingstellung;
 	private JComboBox<Character> leftRotorRingstellung;
