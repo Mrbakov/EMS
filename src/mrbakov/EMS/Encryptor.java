@@ -8,15 +8,12 @@ import javax.swing.JComboBox;
 
 public class Encryptor {
 
-	// TODO: Add 8 rotors as array lists
-	// Fix initial design add a way to pick a from the 8 types of rotors
-	// Add functionality for a ring setting (ringstellung) - this setting works by
-	// subtracting the number of the character (from 1-26) from the ring setting
-	// (convrted into a number from 1-26)
+	static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	public Encryptor() {
+	}
 
 	// TODO: Make the enigma work according to this code:
-	// TODO: Use a hashmap with integer keys instead of calling "charAt()" in a
-	// string;
 	/**
 	 * Map Letter Map one letter to another through current wheel
 	 * 
@@ -71,12 +68,36 @@ public class Encryptor {
 //	    return number;
 //	}
 
-	Character mapLetter(Character letter, Rotor rotor) {
-		// TODO: To start the method map the "letter" and the ringstellung character to
-		// numbers of the alphabet and subtract them. Then map the resulting number back
-		// into a letter.
+	Character mapLetter(Character letter, Rotor rotor, boolean directionLeftToRight) {
 
-		return letter;
+		// Change number according to ringstellung (ring setting)
+		// Wheel turns anti-clockwise (looking from right)
+		Integer number = convertLetterToNumber(letter)
+				- convertLetterToNumber(rotor.getRingstellung().getSelectedItem());
+
+		// Change number according to wheel position
+		// Wheel turns clockwise (looking from right)
+		number = number + convertLetterToNumber(rotor.getGrundstellung().getSelectedItem());
+
+		letter = convertNumberToLetter(number);
+
+		// Do internal connection 'x' to 'y' according to direction
+		if(directionLeftToRight == true) {
+		letter = rotor.getReverseMap().get(letter);
+		} else {
+		letter = rotor.getMap().get(letter);
+		}
+
+		// NOW WORK IT BACKWARDS : subtract where we added and vice versa
+		number = convertLetterToNumber(letter);
+
+		// Change according to wheel position (anti-clockwise)
+		number = number - convertLetterToNumber(rotor.getGrundstellung().getSelectedItem());
+
+		// Change according to ringstellung (clockwise)
+		number = number + convertLetterToNumber(rotor.getRingstellung().getSelectedItem());
+
+		return convertNumberToLetter(number);
 	}
 
 	void incrementRotor(JComboBox<Character> rotorGrundstellung) {
@@ -86,10 +107,6 @@ public class Encryptor {
 			selectedIndex++;
 		}
 		rotorGrundstellung.setSelectedIndex(selectedIndex);
-	}
-
-	public Encryptor() {
-
 	}
 
 	public void incrementRotors(JComboBox<Character> rightRotorGrundstellung,
@@ -107,42 +124,80 @@ public class Encryptor {
 		incrementRotor(rightRotorGrundstellung);
 	}
 
-	Character scrambleCharacter(Character character) {
-
-		character = 'A';
+	Character encodeCharacter(Character character, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		
+		// First Pass - R Wheel
+		character = mapLetter(character, rightRotor, false);
+		
+		// First Pass - M Wheel
+		character = mapLetter(character, middleRotor, false);
+		
+		// First Pass - L Wheel
+		character = mapLetter(character, leftRotor, false);
+		
+		// Reflector
+		character = reflector.get(character);
+		
+	    // Second Pass - L Wheel
+		character = mapLetter(character, leftRotor, true);
+		
+		// Second Pass - M Wheel
+		character = mapLetter(character, middleRotor, true);
+		
+	    // Second Pass - R Wheel
+		character = mapLetter(character, rightRotor, true);
 
 		return character;
 	}
 
-	String scrambleWord(String word) {
-		StringBuilder scrambledWord = new StringBuilder();
+	String encodeWord(String word, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		StringBuilder encodedWord = new StringBuilder();
 		for (Character character : word.toCharArray()) {
-			scrambledWord.append(scrambleCharacter(character));
+			encodedWord.append(encodeCharacter(character, rightRotor, middleRotor, leftRotor, reflector));
 		}
-		// TODO: incrementRotors(...) should execute here
-		return String.valueOf(scrambledWord);
+		return String.valueOf(encodedWord);
 	}
 
-	String scrambleText(String text) {
-		StringBuilder convertedText = new StringBuilder();
+	String scrambleText(String text, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		StringBuilder encodedText = new StringBuilder();
 		if (text.contains(" ")) {
 			for (String word : text.split(" ")) {
-				convertedText.append(scrambleWord(word));
-				convertedText.append(" ");
+				encodedText.append(encodeWord(word, rightRotor, middleRotor, leftRotor, reflector));
+				encodedText.append(" ");
 			}
 		} else {
-			convertedText = new StringBuilder(scrambleWord(text));
+			encodedText = new StringBuilder(encodeWord(text, rightRotor, middleRotor, leftRotor, reflector));
 		}
-		return String.valueOf(convertedText);
+		return String.valueOf(encodedText);
+	}
+
+	Integer convertLetterToNumber(Object object) {
+		Integer number = alphabet.indexOf((Character) object) + 1;
+		return number;
+	}
+
+	Character convertNumberToLetter(Integer number) {
+		Character character = alphabet.charAt(number - 1);
+		return character;
 	}
 
 	void populateMap(HashMap<Character, Character> map, String scrambledAlphabet) {
 		int iterator = 0;
-		String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
-		for (char character : scrambledAlphabet.toUpperCase().toCharArray()) {
+		for (Character character : scrambledAlphabet.toUpperCase().toCharArray()) {
 			map.put(alphabet.charAt(iterator), character);
 			iterator++;
 		}
 		System.out.println(Collections.singletonList(map));
+	}
+	void populateReverseMap(HashMap<Character, Character> map, String scrambledAlphabet) {
+		int iterator = 0;
+		for (Character character : scrambledAlphabet.toCharArray()) {
+			map.put(character, alphabet.charAt(iterator));
+			iterator++;
+		}
+		System.out.println(map.toString());
 	}
 }

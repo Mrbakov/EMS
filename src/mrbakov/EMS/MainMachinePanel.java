@@ -58,6 +58,16 @@ public class MainMachinePanel extends JPanel {
 	private HashMap<Character, Character> rotor7Map;
 	private HashMap<Character, Character> rotor8Map;
 
+	private List<HashMap<Character, Character>> rotorReverseMapsList = new ArrayList<HashMap<Character, Character>>();
+	private HashMap<Character, Character> rotor1ReverseMap;
+	private HashMap<Character, Character> rotor2ReverseMap;
+	private HashMap<Character, Character> rotor3ReverseMap;
+	private HashMap<Character, Character> rotor4ReverseMap;
+	private HashMap<Character, Character> rotor5ReverseMap;
+	private HashMap<Character, Character> rotor6ReverseMap;
+	private HashMap<Character, Character> rotor7ReverseMap;
+	private HashMap<Character, Character> rotor8ReverseMap;
+
 	// Reflectors:
 	private List<HashMap<Character, Character>> reflectorsList = new ArrayList<HashMap<Character, Character>>();
 	private HashMap<Character, Character> reflectorB;
@@ -169,6 +179,38 @@ public class MainMachinePanel extends JPanel {
 		rotor8Map = new HashMap<Character, Character>();
 		encryptor.populateMap(rotor8Map, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
 		rotorMapsList.add(rotor8Map);
+		// Reverse maps
+		rotor1ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor1ReverseMap, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+		rotorReverseMapsList.add(rotor1ReverseMap);
+
+		rotor2ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor2ReverseMap, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
+		rotorReverseMapsList.add(rotor2ReverseMap);
+
+		rotor3ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor3ReverseMap, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
+		rotorReverseMapsList.add(rotor3ReverseMap);
+
+		rotor4ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor4ReverseMap, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
+		rotorReverseMapsList.add(rotor4ReverseMap);
+
+		rotor5ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor5ReverseMap, "VZBRGITYUPSDNHLXAWMJQOFECK");
+		rotorReverseMapsList.add(rotor5ReverseMap);
+
+		rotor6ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor6ReverseMap, "JPGVOUMFYQBENHZRDKASXLICTW");
+		rotorReverseMapsList.add(rotor6ReverseMap);
+
+		rotor7ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor7ReverseMap, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
+		rotorReverseMapsList.add(rotor7ReverseMap);
+
+		rotor8ReverseMap = new HashMap<Character, Character>();
+		encryptor.populateReverseMap(rotor8ReverseMap, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
+		rotorReverseMapsList.add(rotor8ReverseMap);
 
 		reflectorB = new HashMap<Character, Character>();
 		encryptor.populateMap(reflectorB, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
@@ -222,11 +264,16 @@ public class MainMachinePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				rightRotor = new Rotor(rotorMapsList.get(rightRotorUsed.getSelectedIndex()), rightRotorGrundstellung,
+				rightRotor = new Rotor(rotorMapsList.get(rightRotorUsed.getSelectedIndex()),
+						rotorReverseMapsList.get(rightRotorUsed.getSelectedIndex()), rightRotorGrundstellung,
 						rightRotorRingstellung, rotorKnockpointsList.get(rightRotorUsed.getSelectedIndex()));
-				middleRotor = new Rotor(rotorMapsList.get(middleRotorUsed.getSelectedIndex()), middleRotorGrundstellung,
+
+				middleRotor = new Rotor(rotorMapsList.get(middleRotorUsed.getSelectedIndex()),
+						rotorReverseMapsList.get(middleRotorUsed.getSelectedIndex()), middleRotorGrundstellung,
 						middleRotorRingstellung, rotorKnockpointsList.get(middleRotorUsed.getSelectedIndex()));
-				leftRotor = new Rotor(rotorMapsList.get(leftRotorUsed.getSelectedIndex()), leftRotorGrundstellung,
+
+				leftRotor = new Rotor(rotorMapsList.get(leftRotorUsed.getSelectedIndex()),
+						rotorReverseMapsList.get(leftRotorUsed.getSelectedIndex()), leftRotorGrundstellung,
 						leftRotorRingstellung, rotorKnockpointsList.get(leftRotorUsed.getSelectedIndex()));
 
 				encryptor.incrementRotors(rightRotor.getGrundstellung(), middleRotor.getGrundstellung(),
@@ -234,7 +281,8 @@ public class MainMachinePanel extends JPanel {
 						leftRotor.getKnockpoints());
 
 				String text = inputTextField.getText();
-				outputTextField.setText(encryptor.scrambleText(text));
+				outputTextField.setText(String.valueOf(encryptor.encodeCharacter(text.charAt(0), rightRotor, middleRotor,
+						leftRotor, reflectorsList.get(reflectorUsed.getSelectedIndex()))));
 			}
 		});
 

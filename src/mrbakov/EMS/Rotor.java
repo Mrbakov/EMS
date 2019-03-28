@@ -11,19 +11,25 @@ public class Rotor {
 	private JComboBox<Character> ringstellung;
 	private ArrayList<Integer> knockpoints;
 	private HashMap<Character, Character> map;
+	private HashMap<Character, Character> reverseMap;
 
-	public Rotor(HashMap<Character, Character> map, JComboBox<Character> grundstellung,
+	public Rotor(HashMap<Character, Character> map, HashMap<Character, Character> reverseMap, JComboBox<Character> grundstellung,
 			 JComboBox<Character> ringstellung, ArrayList<Integer> knockpoints) {
 		this.map = map;
+		this.reverseMap = reverseMap;
 		this.grundstellung = grundstellung;
 		this.ringstellung = ringstellung;
 		this.knockpoints = knockpoints;
 	}
+	
+	public HashMap<Character, Character> getReverseMap() {
+		return reverseMap;
+	}
 
-	public Rotor(ArrayList<Integer> knockpoints, HashMap<Character, Character> map) {
-		super();
-		this.knockpoints = knockpoints;
-		this.map = map;
+
+
+	public void setReverseMap(HashMap<Character, Character> reverseMap) {
+		this.reverseMap = reverseMap;
 	}
 
 	public HashMap<Character, Character> getMap() {
