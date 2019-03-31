@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MainMachinePanel extends JPanel {
+	
+	static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	// Rotor setting:
 	private JComboBox<Character> rightRotorGrundstellung;
@@ -149,75 +152,75 @@ public class MainMachinePanel extends JPanel {
 		encryptor = new Encryptor();
 
 		rotor1Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor1Map, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+		populateMap(rotor1Map, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 		rotorMapsList.add(rotor1Map);
 
 		rotor2Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor2Map, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
+		populateMap(rotor2Map, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
 		rotorMapsList.add(rotor2Map);
 
 		rotor3Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor3Map, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
+		populateMap(rotor3Map, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
 		rotorMapsList.add(rotor3Map);
 
 		rotor4Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor4Map, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
+		populateMap(rotor4Map, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
 		rotorMapsList.add(rotor4Map);
 
 		rotor5Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor5Map, "VZBRGITYUPSDNHLXAWMJQOFECK");
+		populateMap(rotor5Map, "VZBRGITYUPSDNHLXAWMJQOFECK");
 		rotorMapsList.add(rotor5Map);
 
 		rotor6Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor6Map, "JPGVOUMFYQBENHZRDKASXLICTW");
+		populateMap(rotor6Map, "JPGVOUMFYQBENHZRDKASXLICTW");
 		rotorMapsList.add(rotor6Map);
 
 		rotor7Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor7Map, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
+		populateMap(rotor7Map, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
 		rotorMapsList.add(rotor7Map);
 
 		rotor8Map = new HashMap<Character, Character>();
-		encryptor.populateMap(rotor8Map, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
+		populateMap(rotor8Map, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
 		rotorMapsList.add(rotor8Map);
 		// Reverse maps
 		rotor1ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor1ReverseMap, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
+		populateReverseMap(rotor1ReverseMap, "EKMFLGDQVZNTOWYHXUSPAIBRCJ");
 		rotorReverseMapsList.add(rotor1ReverseMap);
 
 		rotor2ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor2ReverseMap, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
+		populateReverseMap(rotor2ReverseMap, "AJDKSIRUXBLHWTMCQGZNPYFVOE");
 		rotorReverseMapsList.add(rotor2ReverseMap);
 
 		rotor3ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor3ReverseMap, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
+		populateReverseMap(rotor3ReverseMap, "BDFHJLCPRTXVZNYEIWGAKMUSQO");
 		rotorReverseMapsList.add(rotor3ReverseMap);
 
 		rotor4ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor4ReverseMap, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
+		populateReverseMap(rotor4ReverseMap, "ESOVPZJAYQUIRHXLNFTGKDCMWB");
 		rotorReverseMapsList.add(rotor4ReverseMap);
 
 		rotor5ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor5ReverseMap, "VZBRGITYUPSDNHLXAWMJQOFECK");
+		populateReverseMap(rotor5ReverseMap, "VZBRGITYUPSDNHLXAWMJQOFECK");
 		rotorReverseMapsList.add(rotor5ReverseMap);
 
 		rotor6ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor6ReverseMap, "JPGVOUMFYQBENHZRDKASXLICTW");
+		populateReverseMap(rotor6ReverseMap, "JPGVOUMFYQBENHZRDKASXLICTW");
 		rotorReverseMapsList.add(rotor6ReverseMap);
 
 		rotor7ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor7ReverseMap, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
+		populateReverseMap(rotor7ReverseMap, "NZJHGRCXMYSWBOUFAIVLPEKQDT");
 		rotorReverseMapsList.add(rotor7ReverseMap);
 
 		rotor8ReverseMap = new HashMap<Character, Character>();
-		encryptor.populateReverseMap(rotor8ReverseMap, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
+		populateReverseMap(rotor8ReverseMap, "FKQHTLXOCBJSPDZRAMEWNIUYGV");
 		rotorReverseMapsList.add(rotor8ReverseMap);
 
 		reflectorB = new HashMap<Character, Character>();
-		encryptor.populateMap(reflectorB, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+		populateMap(reflectorB, "YRUHQSLDPXNGOKMIEBFZCWVJAT");
 		reflectorsList.add(reflectorB);
 
 		reflectorC = new HashMap<Character, Character>();
-		encryptor.populateMap(reflectorC, "FVPJIAOYEDRZXWGCTKUQSBNMHL");
+		populateMap(reflectorC, "FVPJIAOYEDRZXWGCTKUQSBNMHL");
 		reflectorsList.add(reflectorC);
 
 		rotor1Knockpoints = new ArrayList<Integer>();
@@ -276,12 +279,8 @@ public class MainMachinePanel extends JPanel {
 						rotorReverseMapsList.get(leftRotorUsed.getSelectedIndex()), leftRotorGrundstellung,
 						leftRotorRingstellung, rotorKnockpointsList.get(leftRotorUsed.getSelectedIndex()));
 
-				encryptor.incrementRotors(rightRotor.getGrundstellung(), middleRotor.getGrundstellung(),
-						leftRotor.getGrundstellung(), rightRotor.getKnockpoints(), middleRotor.getKnockpoints(),
-						leftRotor.getKnockpoints());
-
 				String text = inputTextField.getText();
-				outputTextField.setText(String.valueOf(encryptor.encodeCharacter(text.charAt(0), rightRotor, middleRotor,
+				outputTextField.setText(String.valueOf(encodeCharacter(text.charAt(0), rightRotor, middleRotor,
 						leftRotor, reflectorsList.get(reflectorUsed.getSelectedIndex()))));
 			}
 		});
@@ -463,6 +462,144 @@ public class MainMachinePanel extends JPanel {
 		for (int i = 1; i < 9; i++) {
 			comboBox.addItem(i);
 		}
+	}
+	
+	Character mapLetter(Character letter, Rotor rotor, boolean directionLeftToRight) {
+
+		// Change number according to ringstellung (ring setting)
+		// Wheel turns anti-clockwise (looking from right)
+		Integer number = convertLetterToNumber(letter)
+				- convertLetterToNumber(rotor.getRingstellung().getSelectedItem());
+
+		// Change number according to wheel position
+		// Wheel turns clockwise (looking from right)
+		number = number + convertLetterToNumber(rotor.getGrundstellung().getSelectedItem());
+
+		letter = convertNumberToLetter(number);
+
+		// Do internal connection 'x' to 'y' according to direction
+		if(directionLeftToRight == true) {
+		letter = rotor.getReverseMap().get(letter);
+		} else {
+		letter = rotor.getMap().get(letter);
+		}
+
+		// NOW WORK IT BACKWARDS : subtract where we added and vice versa
+		number = convertLetterToNumber(letter);
+
+		// Change according to wheel position (anti-clockwise)
+		number = number - convertLetterToNumber(rotor.getGrundstellung().getSelectedItem());
+
+		// Change according to ringstellung (clockwise)
+		number = number + convertLetterToNumber(rotor.getRingstellung().getSelectedItem());
+
+		return convertNumberToLetter(number);
+	}
+
+	void incrementRotor(JComboBox<Character> rotorGrundstellung) {
+		int selectedIndex = 0;
+		if (rotorGrundstellung.getSelectedIndex() < 25) {
+			selectedIndex = rotorGrundstellung.getSelectedIndex();
+			selectedIndex++;
+		}
+		rotorGrundstellung.setSelectedIndex(selectedIndex);
+	}
+
+	public void incrementRotors(JComboBox<Character> rightRotorGrundstellung,
+			JComboBox<Character> middleRotorGrundstellung, JComboBox<Character> leftRotorGrundstellung,
+			ArrayList<Integer> rightRotorKnockpoint, ArrayList<Integer> middleRotorKnockpoint,
+			ArrayList<Integer> leftRotorKnockpoint) {
+		if (rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(0) - 1
+				|| rightRotorGrundstellung.getSelectedIndex() == rightRotorKnockpoint.get(1) - 1) {
+			if (middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(0) - 1
+					|| middleRotorGrundstellung.getSelectedIndex() == middleRotorKnockpoint.get(1) - 1) {
+				incrementRotor(leftRotorGrundstellung);
+			}
+			incrementRotor(middleRotorGrundstellung);
+		}
+		incrementRotor(rightRotorGrundstellung);
+	}
+
+	Character encodeCharacter(Character character, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		incrementRotors(rightRotor.getGrundstellung(), middleRotor.getGrundstellung(),
+				leftRotor.getGrundstellung(), rightRotor.getKnockpoints(), middleRotor.getKnockpoints(),
+				leftRotor.getKnockpoints());
+		
+		// First Pass - R Wheel
+		character = mapLetter(character, rightRotor, false);
+		
+		// First Pass - M Wheel
+		character = mapLetter(character, middleRotor, false);
+		
+		// First Pass - L Wheel
+		character = mapLetter(character, leftRotor, false);
+		
+		// Reflector
+		character = reflector.get(character);
+		
+	    // Second Pass - L Wheel
+		character = mapLetter(character, leftRotor, true);
+		
+		// Second Pass - M Wheel
+		character = mapLetter(character, middleRotor, true);
+		
+	    // Second Pass - R Wheel
+		character = mapLetter(character, rightRotor, true);
+
+		return character;
+	}
+
+	String encodeWord(String word, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		StringBuilder encodedWord = new StringBuilder();
+		for (Character character : word.toCharArray()) {
+			encodedWord.append(encodeCharacter(character, rightRotor, middleRotor, leftRotor, reflector));
+		}
+		return String.valueOf(encodedWord);
+	}
+
+	String scrambleText(String text, Rotor rightRotor, Rotor middleRotor, Rotor leftRotor,
+			HashMap<Character, Character> reflector) {
+		StringBuilder encodedText = new StringBuilder();
+		if (text.contains(" ")) {
+			for (String word : text.split(" ")) {
+				encodedText.append(encodeWord(word, rightRotor, middleRotor, leftRotor, reflector));
+				encodedText.append(" ");
+			}
+		} else {
+			encodedText = new StringBuilder(encodeWord(text, rightRotor, middleRotor, leftRotor, reflector));
+		}
+		return String.valueOf(encodedText);
+	}
+	
+	// Helper methods:
+
+	Integer convertLetterToNumber(Object object) {
+		Integer number = alphabet.indexOf((Character) object) + 1;
+		return number;
+	}
+
+	Character convertNumberToLetter(Integer number) {
+		Character character = alphabet.charAt(number - 1);
+		return character;
+	}
+
+	void populateMap(HashMap<Character, Character> map, String scrambledAlphabet) {
+		int iterator = 0;
+		for (Character character : scrambledAlphabet.toUpperCase().toCharArray()) {
+			map.put(alphabet.charAt(iterator), character);
+			iterator++;
+		}
+		System.out.println(Collections.singletonList(map));
+	}
+	void populateReverseMap(HashMap<Character, Character> map, String scrambledAlphabet) {
+		int iterator = 0;
+		for (Character character : scrambledAlphabet.toCharArray()) {
+			map.put(character, alphabet.charAt(iterator));
+			iterator++;
+		}
+		System.out.println(map.toString());
 	}
 
 }
